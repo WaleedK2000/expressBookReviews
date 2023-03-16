@@ -16,7 +16,20 @@ const authenticatedUser = (username,password)=>{ //returns boolean
 //only registered users can login
 regd_users.post("/login", (req,res) => {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const {username, password} = req.body
+  for (i in users){
+      if (users[i]['username'] === username ){
+          if(users[i]['password'] === password){
+                const token = jwt.sign({ username }, 'fingerprint_customer');
+
+                res.status(200).json({token: token});
+
+          }
+          res.status(403).json({token: token});
+        }
+        console.log(i)
+  }
+  return res.status(404).json({message: 'Error'});
 });
 
 // Add a book review
